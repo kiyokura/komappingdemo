@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -48,13 +48,8 @@
         // Load JSON from localStorage.
         var json = localStorage.getItem("formData");
 
-        // Convert json to Javascript object.
-        var data = JSON.parse(json);
-
-        // Update ViewModel member.
-        viewModel.age(data.age);
-        viewModel.name(data.name);
-        viewModel.email(data.email);
+        // Map to exist ViewModel from JSON
+        ko.mapping.fromJSON(json, {}, viewModel);
 
         alert('Loaded from localStorage.');
       });

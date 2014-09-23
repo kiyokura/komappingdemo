@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Demo : knockout.js + knockout.mapping + localStorage</title>
+  <script src="Scripts/jquery-2.1.1.js"></script>
+  <script src="Scripts/knockout-3.2.0.js"></script>
+  <script src="Scripts/knockout.mapping-latest.js"></script>
+  <script type="text/javascript">
+
+    $(function () {
+
+      var initData = {
+          name: "foo",
+          age: 20,
+          email: "foo@example.com"
+        };
+
+      // mapping JavaScript object to ViewModel by knockout.mapping.
+      var viewModel = ko.mapping.fromJS(initData);
+
+      // Bind ViewModel to input form by knockout.js.
+      ko.applyBindings(viewModel);
+
+
+      $("#btnSaveToStorage").click(function () {
+
+        // Create JSON from ViewModel by knockout.mapping.
+        var formData = ko.mapping.toJSON(viewModel)
+
+        // Save JSON data to localStorage.
+        localStorage.setItem("formData", formData);
+        alert('Saved to localStorage.');
+      });
+
+
+      $("#btnInitializeForm").click(function () {
+
+        // Initialize input forms. 
+        viewModel.age(initData.age);
+        viewModel.name(initData.name);
+        viewModel.email(initData.email);
+        alert('Initialized form.');
+      });
+
+      $("#btnLoadFromStorage").click(function () {
+
+        // Load JSON from localStorage.
+        var json = localStorage.getItem("formData");
+
+        // Convert json to Javascript object.
+        var data = JSON.parse(json);
+
+        // Update ViewModel member.
+        viewModel.age(data.age);
+        viewModel.name(data.name);
+        viewModel.email(data.email);
+
+        alert('Loaded from localStorage.');
+      });
+
+    });
+  </script>
+</head>
+<body>
+  <h1>Demo : knockout.js + knockout.mapping + localStorage </h1>
+  <div>
+    <dl>
+      <dt>name</dt>
+      <dd>
+        <input type="text" id="name" data-bind="value:name" />
+      </dd>
+
+      <dt>age</dt>
+      <dd>
+        <select id="age" data-bind="value:age">
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+        </select>
+      </dd>
+
+      <dt>email</dt>
+      <dd><input type="text" id="name" data-bind="value:email" /></dd>
+    </dl>
+  </div>
+  <div>
+    <button id="btnSaveToStorage">Save to localStorage</button>
+    <button id="btnInitializeForm">Initialize form</button>
+    <button id="btnLoadFromStorage">Load from localStorage</button>
+  </div>
+</body>
+</html>
